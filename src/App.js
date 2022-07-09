@@ -18,16 +18,19 @@ function App() {
 
   const [posts,setPosts] =useState(data)
   const [search,setSearch]=useState("")
+  const [searchResult,setSearchResult] =useState([])
+
+ 
 
   
   return (
     <div>
       <Header title="React blog"/>
-      <Nav/>
+      <Nav search={search} setSearch={setSearch}/ >
      
 
       <Routes>
-      <Route path="/" element={<Home/>} data={data}/>
+      <Route path="/" element={<Home posts={posts}/>}/>
       <Route path="/post" element={ < NewPost/>}/>
       <Route path="/about" element={<About/>}/>
       <Route path="/post/:id" element={<PostPage/>}/>
