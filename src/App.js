@@ -12,6 +12,7 @@ import {Routes,Route} from "react-router-dom"
 import {useState,useEffect} from "react";
 import {data} from "./helper/data"
 import {useNavigate} from "react-router-dom"
+import {format} from "date-fns"
 
 
 function App() {
@@ -33,18 +34,31 @@ function App() {
 const handleSubmit=(e)=>{
   e.preventDefault()
   const id=posts.length ? posts[posts.length-1].id+1 :1 ;
-  const datetime="";
-
+  const datetime=format(new Date(),"MMMM dd,yyyy pp");
+  const newPost={id,title:postTitle,datetime,body:postBody}
+  const allPost={...posts,newPost};
+  setPosts(allPost)
+  setPostTitle("")
+  setPostBody("")
+  navigate("/", { replace: true });
 }
+
+useEffect(()=>{
+const filteredResults=posts.filter(post=>
+((post.body).toLowerCase()).includes(search.toLowerCase()) ||
+((post.title).toLowerCase()).includes(search.toLowerCase()));
+setSearchResult(filteredResults.reverse())
+
+},[posts,search])
   
   return (
     <div>
       <Header title="React blog"/>
-      <Nav search={search} setSearch={setSearch}/ >
+      <Nav search={search} setSearch={setSearch} posts={searchResult}/ >
      
 
       <Routes>
-      <Route path="/" element={<Home posts={posts}/>}/>
+      <Route path="/" element={<Home posts={searchResult}/>}/>
       <Route path="/post" element={ < NewPost
       handleSubmit={handleSubmit}
        postTitle={postTitle}
