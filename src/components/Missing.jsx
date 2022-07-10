@@ -1,14 +1,20 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import errorImg from "../images/404.png";
 
 const Missing = () => {
+  const navigate = useNavigate();
   return (
-    <main className="Missing">
-      <h2>Page Not Found</h2>
-      <p>Well, that's disappointing.</p>
-      <p>
-        <Link to="/">Visit Our Homepage</Link>
-      </p>
-    </main>
+    <div className="container text-center mt-4">
+      <img className="w-75" src={errorImg} alt="" />
+      <div>
+        <button onClick={() => navigate("/")} className="btn btn-success me-2">
+          Home
+        </button>
+        <button onClick={() => navigate(-1)} className="btn btn-warning">
+          Go Back
+        </button>
+      </div>
+    </div>
   );
 };
 

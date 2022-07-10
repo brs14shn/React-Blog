@@ -11,6 +11,7 @@ import Missing from './components/Missing';
 import {Routes,Route} from "react-router-dom"
 import {useState,useEffect} from "react";
 import {data} from "./helper/data"
+import {useNavigate} from "react-router-dom"
 
 
 function App() {
@@ -19,9 +20,22 @@ function App() {
   const [posts,setPosts] =useState(data)
   const [search,setSearch]=useState("")
   const [searchResult,setSearchResult] =useState([])
+  const [postTitle, setPostTitle] = useState("");
+  const [postBody, setPostBody] = useState("");
+  const navigate=useNavigate()
 
- 
+ const handleDelete=(id)=>{
+  const postsList=posts.filter((post)=>post.id!==id)
+  setPosts(postsList)
+  navigate("/", { replace: true });
+ }
 
+const handleSubmit=(e)=>{
+  e.preventDefault()
+  const id=posts.length ? posts[posts.length-1].id+1 :1 ;
+  const datetime="";
+
+}
   
   return (
     <div>
@@ -31,9 +45,17 @@ function App() {
 
       <Routes>
       <Route path="/" element={<Home posts={posts}/>}/>
-      <Route path="/post" element={ < NewPost/>}/>
+      <Route path="/post" element={ < NewPost
+      handleSubmit={handleSubmit}
+       postTitle={postTitle}
+       setPostTitle={setPostTitle}
+       postBody ={postBody}
+       setPostBody={setPostBody}
+
+       
+       />}/>
       <Route path="/about" element={<About/>}/>
-      <Route path="/post/:id" element={<PostPage/>}/>
+      <Route path="/post/:id" element={<PostPage posts={posts} handleDelete={handleDelete}/>}/>
       <Route path="*" element={<Missing/>}/>
      </Routes>
 
