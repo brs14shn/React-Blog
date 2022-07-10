@@ -1,6 +1,7 @@
 import Feed from "../components/Feed";
 
 const Home = ({ posts }) => {
+  
   console.log(posts);
   return (
     <main className="Home">
